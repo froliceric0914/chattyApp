@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { generateRandomId } from "./utils";
 
 class ChatBar extends Component {
   // constructor(props) {
@@ -27,36 +28,28 @@ class ChatBar extends Component {
   // }
 
   //listen to the content msg field once enter
-  _handleContent = e => {
+  _handleKeyPress = e => {
     if (e.key === "Enter") {
       this.props.newMessage(e.target.value);
-    }
-  };
-
-  _handleUsername = e => {
-    if (e.key === "Enter" && e.target.value !== this.props.currentUser) {
-      this.props.noteNameChange(e.target.value, this.props.currentUser);
     }
   };
 
   /*controlled component,value={this.state.content},re-render the value after re-setState */
   render() {
     // const placeholderM = { this.props.currentUser.name }
-    //need to trigger an event to read from input field
     return (
       <footer className="chatbar">
         <input
           className="chatbar-username"
           type="text"
-          placeholder={this.props.currentUser.name}
-          onKeyPress={this._handleUsername}
+          // placeholder={placeholderM}
         />
         <input
           className="chatbar-message"
           type="text"
           // onChange={this.contentHandler}
           placeholder="Type a message and hit Enter"
-          onKeyPress={this._handleContent}
+          onKeyPress={this._handleKeyPress}
           //listen to the change
         />
       </footer>
