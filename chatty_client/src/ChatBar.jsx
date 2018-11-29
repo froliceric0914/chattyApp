@@ -30,14 +30,16 @@ class ChatBar extends Component {
 
   //listen to the content msg field once enter
   _handleContent(e) {
+    console.log(e);
     if (e.key === "Enter") {
       this.props.newMessage(e.target.value);
     }
   }
 
   _handleUsername(e) {
-    if (e.key === "Enter" && e.target.value !== this.props.currentUser) {
-      this.props.noteNameChange(e.target.value, this.props.currentUser);
+    if (e.key === "Enter" && e.target.value !== this.props.currentUser.name) {
+      this.props.newUser(e.target.value, this.props.currentUser.name);
+      this.setstate;
     }
   }
 
@@ -49,6 +51,8 @@ class ChatBar extends Component {
         <input
           className="chatbar-username"
           type="text"
+          onKeyPress={this._handleUsername}
+
           // placeholder={placeholderM}
         />
         <input
@@ -56,7 +60,7 @@ class ChatBar extends Component {
           type="text"
           // onChange={this.contentHandler}
           placeholder="Type a message and hit Enter"
-          onKeyPress={this._handleKeyPress}
+          onKeyPress={this._handleContent}
           //listen to the change
         />
       </footer>

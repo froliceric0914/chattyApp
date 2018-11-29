@@ -12,6 +12,7 @@ class App extends Component {
       messages: []
     };
     this.newMessage = this.newMessage.bind(this);
+    this.newUser = this.newUser.bind(this);
   }
   //data down to the child: chatBar
   //send message to the server
@@ -22,6 +23,15 @@ class App extends Component {
     };
 
     this.socket.send(JSON.stringify(newMessage));
+  }
+
+  newUser(newName, oldName) {
+    const newMessage = {
+      content: `Notice: the username, ${oldName}, has changes to username: ${newName} `
+    };
+
+    this.socket.send(JSON.stringify(newMessage));
+    this.setState({ currentUser: { name: newName } });
   }
 
   componentDidMount() {
@@ -42,7 +52,11 @@ class App extends Component {
     return (
       <div>
         <NaviBar />
-        <ChatBar newMessage={this.newMessage} user={this.state} />
+        <ChatBar
+          newMessage={this.newMessage}
+          currentUser={this.state.currentUser}
+          newUser={this.newUser}
+        />
         <MessageList messages={this.state.messages} />
       </div>
     );
