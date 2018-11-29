@@ -8,10 +8,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Eric" }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { name: "Eric" },
       messages: []
     };
     this.newMessage = this.newMessage.bind(this);
+    this.noteNameChange = this.noteNameChange.bind(this);
   }
   //data down to the child: chatBar
   //send message to the server
@@ -20,7 +21,15 @@ class App extends Component {
       username: this.state.currentUser.name,
       content: content // shall receive from the chatbar
     };
+    //change the state of current name from the input
+    this.socket.send(JSON.stringify(newMessage));
+  }
 
+  noteNameChange(newName, oldName) {
+    this.setState({ currentUser: { name: newName } });
+    const newMessage = {
+      content: `Notice: the ${oldName} changed to the ${newName}`
+    };
     this.socket.send(JSON.stringify(newMessage));
   }
 
@@ -42,7 +51,11 @@ class App extends Component {
     return (
       <div>
         <NaviBar />
-        <ChatBar newMessage={this.newMessage} user={this.state} />
+        <ChatBar
+          newMessage={this.newMessage}
+          currentUser={this.state.currentUser.name}
+          noteNameChange={this.noteNameChange}
+        />
         <MessageList messages={this.state.messages} />
       </div>
     );
