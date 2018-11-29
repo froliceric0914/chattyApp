@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 
 class NaviBar extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <div>
         <span className="navibar">Chatty</span>
+        <span className="navibar-online-user">
+          Online:{this.props.connectedUsers}
+        </span>
       </div>
     );
   }

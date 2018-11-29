@@ -33,13 +33,13 @@ class ChatBar extends Component {
     console.log(e);
     if (e.key === "Enter") {
       this.props.newMessage(e.target.value);
+      e.target.value = "";
     }
   }
 
   _handleUsername(e) {
     if (e.key === "Enter" && e.target.value !== this.props.currentUser.name) {
       this.props.newUser(e.target.value, this.props.currentUser.name);
-      this.setstate;
     }
   }
 

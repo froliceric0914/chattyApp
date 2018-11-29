@@ -9,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: { name: "Eric" }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      connectedUsers: 0
     };
     this.newMessage = this.newMessage.bind(this);
     this.newUser = this.newUser.bind(this);
@@ -19,31 +20,56 @@ class App extends Component {
   newMessage(content) {
     const newMessage = {
       username: this.state.currentUser.name,
-      content: content // shall receive from the chatbar
+      content: content,
+      type: "postMessage"
     };
-
     this.socket.send(JSON.stringify(newMessage));
   }
 
-  newUser(newName, oldName) {
+  newUser(newName) {
     const newMessage = {
-      content: `Notice: the username, ${oldName}, has changes to username: ${newName} `
+      // username: newName,
+      //send the new name to the server
+      content: `User ${
+        this.state.currentUser.name
+      } has changes to his/her name to ${newName} `,
+      type: "postNotification"
     };
+    this.setState({ currentUser: { name: newName } });
 
     this.socket.send(JSON.stringify(newMessage));
-    this.setState({ currentUser: { name: newName } });
   }
 
   componentDidMount() {
     //connect to the server
     this.socket = new WebSocket("ws://localhost:3001");
     this.socket.onopen = event => {
-      // console.log("Connected to server");
+      console.log("Connected to server");
     };
+
     this.socket.onmessage = event => {
       const message = JSON.parse(event.data);
-      console.log(message);
-      this.setState({ messages: [...this.state.messages, message] });
+      console.log("message from server", message);
+      if (message.type === "connectionNotice") {
+        this.setState({ connectedUsers: message.connected });
+        console.log("online users", this.state.connectedUsers);
+      } else {
+        switch (message.type) {
+          case "incomingMessage":
+            this.setState({ messages: [...this.state.messages, message] });
+            break;
+          case "incomingNotification":
+            // handle incoming notification,set the new name as current username
+            // console.log("newname:", message.username);
+            // this.setState({ currentUser: { name: } });
+            break;
+          default:
+            // show an error in the console if the message type is unknown
+            throw new Error("Unknown event type " + message.type);
+        }
+      }
+
+      // this.setState({ messages: [...this.state.messages, message] });
     };
   }
   //
@@ -51,7 +77,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NaviBar />
+        <NaviBar connectedUsers={this.state.connectedUsers} />
         <ChatBar
           newMessage={this.newMessage}
           currentUser={this.state.currentUser}

@@ -16,7 +16,7 @@ class Message extends Component {
     // }
     return (
       <tr>
-        <td>{this.props.messageData.username}</td>
+        <td>{this.props.messageData.username || ""}</td>
         <td>{this.props.messageData.content}</td>
       </tr>
     );
