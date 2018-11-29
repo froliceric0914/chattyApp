@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 
 class ChatBar extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   // this.state = { name: "", content: "" };
-  //   // this.subMessage = this.submitMessage.bind(this);
-  //   // this.nameHandler = this.nameHandler.bind(this);
-  //   // this.contentHandler = this.contentHandler.bind(this);
-  //   // this._handleKeyPress = this._handleKeyPress.bind(this);
-  // }
+  constructor(props) {
+    super(props);
+    //   // this.state = { name: "", content: "" };
+    //   // this.subMessage = this.submitMessage.bind(this);
+    //   // this.nameHandler = this.nameHandler.bind(this);
+    //   // this.contentHandler = this.contentHandler.bind(this);
+    this._handleContent = this._handleContent.bind(this);
+    this._handleUsername = this._handleUsername.bind(this);
+  }
 
   //controlled component
   // nameHandler(e) {
@@ -27,17 +28,17 @@ class ChatBar extends Component {
   // }
 
   //listen to the content msg field once enter
-  _handleContent = e => {
+  _handleContent(e) {
     if (e.key === "Enter") {
       this.props.newMessage(e.target.value);
     }
-  };
+  }
 
-  _handleUsername = e => {
+  _handleUsername(e) {
     if (e.key === "Enter" && e.target.value !== this.props.currentUser) {
       this.props.noteNameChange(e.target.value, this.props.currentUser);
     }
-  };
+  }
 
   /*controlled component,value={this.state.content},re-render the value after re-setState */
   render() {
