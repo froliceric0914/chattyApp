@@ -4,21 +4,9 @@ import { generateRandomId } from "./utils";
 class ChatBar extends Component {
   constructor(props) {
     super(props);
-    //   // this.state = { name: "", content: "" };
-    //   // this.subMessage = this.submitMessage.bind(this);
-    //   // this.nameHandler = this.nameHandler.bind(this);
-    //   // this.contentHandler = this.contentHandler.bind(this);
     this._handleContent = this._handleContent.bind(this);
     this._handleUsername = this._handleUsername.bind(this);
   }
-
-  //controlled component
-  // nameHandler(e) {
-  //   this.setState({ name: e.target.value });
-  // }
-  // contentHandler(e) {
-
-  // }
 
   //declare the method to change the state of the parent
   // submitMessage(evt) {
@@ -40,6 +28,7 @@ class ChatBar extends Component {
   _handleUsername(e) {
     if (e.key === "Enter" && e.target.value !== this.props.currentUser.name) {
       this.props.newUser(e.target.value, this.props.currentUser.name);
+      // console.log("changeusername", e.target.value);
     }
   }
 
@@ -52,7 +41,7 @@ class ChatBar extends Component {
           className="chatbar-username"
           type="text"
           onKeyPress={this._handleUsername}
-
+          placeholder="Your Name (Optional)"
           // placeholder={placeholderM}
         />
         <input

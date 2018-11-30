@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Eric" }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { name: "Anonymous" }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       connectedUsers: 0
     };
@@ -26,17 +26,17 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage));
   }
 
-  newUser(newName) {
+  newUser(newName, oldName) {
     const newMessage = {
       // username: newName,
       //send the new name to the server
-      content: `User ${
-        this.state.currentUser.name
-      } has changes to his/her name to ${newName} `,
+      content: `User ${oldName} has changes to his/her name to ${newName} `,
       type: "postNotification"
     };
-    this.setState({ currentUser: { name: newName } });
-
+    console.log("change user: ", newName);
+    this.setState({
+      currentUser: { name: newName }
+    });
     this.socket.send(JSON.stringify(newMessage));
   }
 
@@ -52,16 +52,18 @@ class App extends Component {
       console.log("message from server", message);
       if (message.type === "connectionNotice") {
         this.setState({ connectedUsers: message.connected });
-        console.log("online users", this.state.connectedUsers);
+        // console.log("online users", this.state.connectedUsers);
       } else {
         switch (message.type) {
           case "incomingMessage":
             this.setState({ messages: [...this.state.messages, message] });
             break;
           case "incomingNotification":
-            // handle incoming notification,set the new name as current username
-            // console.log("newname:", message.username);
-            // this.setState({ currentUser: { name: } });
+            // this.setState({
+            //   currentUser: { name: this.state.currentUser.name }
+            // });
+            this.setState({ messages: [...this.state.messages, message] });
+            console.log(this.state.currentUser.name);
             break;
           default:
             // show an error in the console if the message type is unknown

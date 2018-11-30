@@ -12,11 +12,11 @@ class MessageList extends Component {
   }
 
   render() {
-    console.log("MsgList_render", this.props.messages);
     const messageList = this.props.messages
       //   .filter(message => message.type === "incomingMessage")
       .map(message => {
-        // console.log(message);
+        console.log("MsgList_render", this.props.messages);
+
         return <Message messageData={message} key={message.id} />;
       });
 
