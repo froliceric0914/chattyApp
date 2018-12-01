@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 class Message extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // this.props.messageData;
   }
 
@@ -16,7 +16,10 @@ class Message extends Component {
     // }
     return (
       <tr>
-        <td>{this.props.messageData.username || ""}</td>
+        <td style={{ color: this.props.messageData.color }}>
+          {this.props.messageData.username || ""}
+        </td>
+        {console.log("what???", this.props.messageData)}
         <td>{this.props.messageData.content}</td>
       </tr>
     );

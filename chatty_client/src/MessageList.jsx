@@ -4,7 +4,7 @@
 
 import React, { Component } from "react";
 import Message from "./Message.jsx";
-
+//how the msglist and msg connected together?????
 class MessageList extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +15,7 @@ class MessageList extends Component {
     const messageList = this.props.messages
       //   .filter(message => message.type === "incomingMessage")
       .map(message => {
-        console.log("MsgList_render", this.props.messages);
-
+        // console.log("MsgList_render", this.props.messages);
         return <Message messageData={message} key={message.id} />;
       });
 

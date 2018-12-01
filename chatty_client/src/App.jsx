@@ -8,7 +8,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Anonymous" }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {
+        name: "Anonymous",
+        color: "#" + Math.floor(Math.random() * 16777215).toString(16)
+      }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       connectedUsers: 0
     };
@@ -17,25 +20,27 @@ class App extends Component {
   }
   //data down to the child: chatBar
   //send message to the server
+  //I think need to change the color here
   newMessage(content) {
     const newMessage = {
+      type: "postMessage",
       username: this.state.currentUser.name,
-      content: content,
-      type: "postMessage"
+      color: this.state.currentUser.color,
+      content: content
     };
+    // console.log("color: ", `i want to change color to ${newMessage.color}`);
     this.socket.send(JSON.stringify(newMessage));
   }
 
   newUser(newName, oldName) {
+    //send the new name to the server
     const newMessage = {
-      // username: newName,
-      //send the new name to the server
       content: `User ${oldName} has changes to his/her name to ${newName} `,
       type: "postNotification"
     };
     console.log("change user: ", newName);
     this.setState({
-      currentUser: { name: newName }
+      currentUser: { name: newName, color: this.state.currentUser.color }
     });
     this.socket.send(JSON.stringify(newMessage));
   }
@@ -49,7 +54,7 @@ class App extends Component {
 
     this.socket.onmessage = event => {
       const message = JSON.parse(event.data);
-      console.log("message from server", message);
+      // console.log("message from server", message);
       if (message.type === "connectionNotice") {
         this.setState({ connectedUsers: message.connected });
         // console.log("online users", this.state.connectedUsers);
@@ -57,6 +62,7 @@ class App extends Component {
         switch (message.type) {
           case "incomingMessage":
             this.setState({ messages: [...this.state.messages, message] });
+            console.log("incomingMSG: ", this.state.messages);
             break;
           case "incomingNotification":
             // this.setState({

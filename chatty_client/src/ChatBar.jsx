@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { generateRandomId } from "./utils";
 
 class ChatBar extends Component {
   constructor(props) {
