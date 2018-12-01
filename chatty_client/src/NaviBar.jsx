@@ -6,7 +6,7 @@ class NaviBar extends Component {
       <div className="navibar">
         <span>Chatty</span>
         <span className="navibar-online-user">
-          Online:{this.props.connectedUsers}
+          Online: {this.props.connectedUsers}
         </span>
       </div>
     );

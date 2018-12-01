@@ -51,44 +51,34 @@ class App extends Component {
 
     this.socket.onmessage = event => {
       const message = JSON.parse(event.data);
-      // console.log("message from server", message);
       if (message.type === "connectionNotice") {
         this.setState({ connectedUsers: message.connected });
-        // console.log("online users", this.state.connectedUsers);
       } else {
         switch (message.type) {
           case "incomingMessage":
             this.setState({ messages: [...this.state.messages, message] });
-            console.log("incomingMSG: ", this.state.messages);
             break;
           case "incomingNotification":
-            // this.setState({
-            //   currentUser: { name: this.state.currentUser.name }
-            // });
             this.setState({ messages: [...this.state.messages, message] });
-            console.log(this.state.currentUser.name);
             break;
           default:
             // show an error in the console if the message type is unknown
             throw new Error("Unknown event type " + message.type);
         }
       }
-
-      // this.setState({ messages: [...this.state.messages, message] });
     };
   }
-  //
 
   render() {
     return (
       <div>
         <NaviBar connectedUsers={this.state.connectedUsers} />
+        <MessageList messages={this.state.messages} />
         <ChatBar
+          newUser={this.newUser}
           newMessage={this.newMessage}
           currentUser={this.state.currentUser}
-          newUser={this.newUser}
         />
-        <MessageList messages={this.state.messages} />
       </div>
     );
   }
