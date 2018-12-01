@@ -16,10 +16,12 @@ class Message extends Component {
     // }
     return (
       <tr>
-        <td style={{ color: this.props.messageData.color }}>
+        <td
+          className="userName"
+          style={{ color: this.props.messageData.color }}
+        >
           {this.props.messageData.username || ""}
         </td>
-        {console.log("what???", this.props.messageData)}
         <td>{this.props.messageData.content}</td>
       </tr>
     );

@@ -27,13 +27,10 @@ class ChatBar extends Component {
   _handleUsername(e) {
     if (e.key === "Enter" && e.target.value !== this.props.currentUser.name) {
       this.props.newUser(e.target.value, this.props.currentUser.name);
-      // console.log("changeusername", e.target.value);
     }
   }
 
-  /*controlled component,value={this.state.content},re-render the value after re-setState */
   render() {
-    // const placeholderM = { this.props.currentUser.name }
     return (
       <footer className="chatbar">
         <input

@@ -11,16 +11,14 @@ class App extends Component {
       currentUser: {
         name: "Anonymous",
         color: "#" + Math.floor(Math.random() * 16777215).toString(16)
-      }, // optional. if currentUser is not defined, it means the user is Anonymous
+      },
       messages: [],
       connectedUsers: 0
     };
     this.newMessage = this.newMessage.bind(this);
     this.newUser = this.newUser.bind(this);
   }
-  //data down to the child: chatBar
-  //send message to the server
-  //I think need to change the color here
+
   newMessage(content) {
     const newMessage = {
       type: "postMessage",
@@ -28,7 +26,6 @@ class App extends Component {
       color: this.state.currentUser.color,
       content: content
     };
-    // console.log("color: ", `i want to change color to ${newMessage.color}`);
     this.socket.send(JSON.stringify(newMessage));
   }
 

@@ -72,3 +72,23 @@ body {
 .chatbar-username {
   flex: 2;
 }
+
+.userName {
+  font-weight: 600;
+}
+
+table {
+  table-layout: fixed;
+  width: fixed;
+}
+
+// th {
+//   width: auto;
+// }
+
+// td {
+//   width: auto;
+// }
+.userName {
+  width: 80px;
+}

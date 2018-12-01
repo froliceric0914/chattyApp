@@ -1,29 +1,20 @@
-//map over the this.props.messages
-//for each of the message,
-//return a component of Message, that taks a prop(message),
-
 import React, { Component } from "react";
 import Message from "./Message.jsx";
 //how the msglist and msg connected together?????
 class MessageList extends Component {
   constructor(props) {
     super(props);
-    // this.state = {};
   }
 
   render() {
-    const messageList = this.props.messages
-      //   .filter(message => message.type === "incomingMessage")
-      .map(message => {
-        // console.log("MsgList_render", this.props.messages);
-        return <Message messageData={message} key={message.id} />;
-      });
+    const messageList = this.props.messages.map(message => {
+      return <Message messageData={message} key={message.id} />;
+    });
 
-    // }
     //seperate the username and content
     return (
       <div className="message">
-        <table>
+        <table className="msgTable">
           <tbody>
             <tr>
               <th>Name</th>
