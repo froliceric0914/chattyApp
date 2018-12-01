@@ -1,7 +1,7 @@
 const express = require("express");
 const WebSocket = require("ws");
 const SocketServer = WebSocket.Server;
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require("uuid/v4");
 // set the uuid
 // Set the port to 3001
 const PORT = 3001;
@@ -17,45 +17,57 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+// send the msg back to client
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
-      if (data){
-        console.log(data);
+      if (data) {
         client.send(JSON.stringify(data));
       } else {
         const connectionNotice = {
           type: "connectionNotice",
-          connected: wss.client.size
+          connected: wss.clients.size
         };
-         client.send(JSON.stringify(connectionNotice));
+        client.send(JSON.stringify(connectionNotice));
       }
     }
   });
 };
 
-
-function addID (message){
-  message.id=uuidv4();
+//attach an unique id to all the
+function addID(message) {
+  message.id = uuidv4();
   return message;
 }
 
 wss.on("connection", ws => {
-  //assign the uuid
   console.log("Client connected");
-  // wss.broadcast();
-  // ws.send();
-  ws.on("message", incoming=(data) =>{
-//push msg, add a uuid
-    const message = JSON.parse(data);
-    const messageWithId = addID(message)
-    wss.broadcast(messageWithId)
-    // console.log(message);
-  })
+
+  //broadcast the set of online user
+  wss.broadcast();
+
+  ws.on(
+    "message",
+    (incoming = data => {
+      const message = JSON.parse(data);
+
+      //classify the msg/notification
+      switch (message.type) {
+        case "postMessage":
+          message.type = "incomingMessage";
+          break;
+        case "postNotification":
+          message.type = "incomingNotification";
+      }
+      //attach an unique id
+      const messageWithId = addID(message);
+      wss.broadcast(messageWithId);
+    })
+  );
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on("close", () => console.log("Client disconnected"));
+  ws.on("close", () => {
+    //update the online user when close the page
+    wss.broadcast();
+    console.log("Client disconnected");
+  });
 });
