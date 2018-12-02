@@ -1,45 +1,49 @@
-React Boilerplate
-=====================
+# Chatty-App Project
 
-A minimal and light dev environment for ReactJS.
+The Chatty App is a minimal and light dev environment for ReactJS. It allows users to communicate with each other without a registered account. It is built based on the React, as well as Webpack and Babel.
+
+### Final Product
+
+!["chat-room"](./doc/chat_room.png)
+
+- When any connected user sends a chat message, all connected users receive and display the message
+- When any connected user changes their name, all connected users are notified of the name change
+- When a user visits or leaves the chatty interface, the header will update the number of online users
+- Notifications are styled differently from chat messages
+- Different users' names will each be coloured differently, and the color stays then same even if they change theirm name.
 
 ### Usage
 
 Clone the boilerplate and create your own git repo.
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
-
 Install the dependencies and start the server.
 
 ```
+
 npm install
 npm start
 open http://localhost:3000
+
 ```
 
 ### Static Files
 
 You can store static files like images, fonts, etc in the `build` folder.
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
 ### Dependencies
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- React
+- React-dom
+- Webpack
+- [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- [babel-loader](https://github.com/babel/babel-loader)
+- Babel-preset-es2015
+- Babel-preset-react
+- Bbabel-preset-stage-0
+- Css-loader
+- Eslint
+- Eslint-plugin-react
+- Node-sass
+- Sass-loader
+- Sockjs-client
+- Style-loader
